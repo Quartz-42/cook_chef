@@ -1,15 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Recette
-	{{ slug }}
+{% block title %}Recette :
+	{{ recipe.title }}
 {% endblock %}
 
 {% block body %}
 	<div>
-		<h1>Recette</h1>
-		<p>Slug:
-			{{ slug }}</p>
-		<p>ID:
-			{{ id }}</p>
+		<h1>{{ recipe.title }}</h1>
+		<p>{{ recipe.content }}</p>
+		<a href="{{ path('recipe.index') }}" class="btn btn-secondary mt-3">Retour à la liste des recettes</a>
 	</div>
 {% endblock %}

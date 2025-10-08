@@ -5,11 +5,25 @@
 
 {% block body %}
 	<div>
-		<h1>Hello</h1>
-		<p>Liste des recettes</p>
-		<ul>
-			<li>
-				<a href="{{ path('recipe.show', {slug: 'pate-bolognaise', id: 32}) }}">Pâte bolognaise</a>
-			</li>
+		<h1 class="text-center my-4">Toutes les recettes</h1>
+
+		<p class="text-center">Plus de
+			{{ totalDuration }}
+			heures de recettes !</p>
+
+		<div class="row">
+			{% for recipe in recipes %}
+				<div class="col-md-4 mb-4">
+					<div class="card h-100">
+						<div class="card-body">
+							<h5 class="card-title">{{ recipe.title }}</h5>
+							<p class="card-text">{{ recipe.content|length > 100 ? recipe.content|slice(0, 100) ~ '...' : recipe.content }}</p>
+							<a href="{{ path('recipe.show', {'slug': recipe.slug, 'id': recipe.id}) }}" class="btn btn-primary">Voir la recette</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
 		</div>
-	{% endblock %}
+
+	</div>
+{% endblock %}
