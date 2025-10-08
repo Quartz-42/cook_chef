@@ -9,14 +9,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
     healthcheck:
       test:
-        [
-          "CMD",
-          "pg_isready",
-          "-d",
-          "${POSTGRES_DB:-app}",
-          "-U",
-          "${POSTGRES_USER:-app}",
-        ]
+        ["CMD", "pg_isready", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}"]
       timeout: 5s
       retries: 5
       start_period: 60s
