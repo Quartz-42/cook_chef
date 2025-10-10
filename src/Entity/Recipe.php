@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Validator\BanWord;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[UniqueEntity(fields: ['slug'], message: 'Ce slug est déjà utilisé par une autre recette, merci de le modifier.')]
@@ -42,6 +43,11 @@ class Recipe
     #[Assert\Positive(message: 'La durée doit être un nombre positif.')]
     #[Assert\LessThan(value: 1440, message: 'La durée doit être inférieure à 1440 minutes (24 heures).')]
     private ?int $duration = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $thumbnail = null;
+
+    private ?File $thumbnailFile = null;
 
     public function getId(): ?int
     {
@@ -116,6 +122,30 @@ class Recipe
     public function setDuration(?int $duration): static
     {
         $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getThumbnail(): ?string
+    {
+        return $this->thumbnail;
+    }
+
+    public function setThumbnail(?string $thumbnail): static
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    public function getThumbnailFile(): ?File
+    {
+        return $this->thumbnailFile;
+    }
+
+    public function setThumbnailFile(?File $thumbnailFile): static
+    {
+        $this->thumbnailFile = $thumbnailFile;
 
         return $this;
     }

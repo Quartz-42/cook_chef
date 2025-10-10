@@ -1,0 +1,36 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}Toutes les recettes
+{% endblock %}
+
+{% block body %}
+	<div>
+		<h1 class="text-center my-4">Toutes les recettes</h1>
+
+		<p class="text-center">Plus de
+			{{ totalDuration }}
+			heures de recettes !</p>
+
+		<div class="mb-3">
+			<a href="{{ path('admin.recipe.create') }}" class="btn btn-success">Ajouter une recette</a>
+		</div>
+
+		<div class="row">
+			{% for recipe in recipes %}
+				<div class="col-md-4 mb-4">
+					<div class="card h-100">
+						<div class="card-body">
+							<h5 class="card-title">{{ recipe.title }}</h5>
+							<p class="card-text">{{ recipe.content|length > 100 ? recipe.content|slice(0, 100) ~ '...' : recipe.content }}</p>
+							<div class="d-flex gap-2">
+								<a href="{{ path('admin.recipe.show', {'id': recipe.id}) }}" class="btn btn-primary btn-sm">Voir</a>
+								<a href="{{ path('admin.recipe.edit', {'id': recipe.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+	</div>
+{% endblock %}

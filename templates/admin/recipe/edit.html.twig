@@ -1,0 +1,20 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}Recette :
+	{{ recipe.title }}
+{% endblock %}
+
+{% block body %}
+	<h1 class="text-center my-4">Modifier la recette :{{ recipe.title }}</h1>
+	<p>
+		<img src="/upload/recettes/images/{{ recipe.thumbnail }}" alt="{{ recipe.title }}" style="max-width: 300px;">
+	</p>
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	{{ form_end(form) }}
+
+	<div class="mt-3">
+		<a href="{{ path('admin.recipe.show', {'id': recipe.id}) }}" class="btn btn-secondary">Retour à la recette</a>
+		<a href="{{ path('admin.recipe.index') }}" class="btn btn-outline-secondary">Liste des recettes</a>
+	</div>
+{% endblock %}

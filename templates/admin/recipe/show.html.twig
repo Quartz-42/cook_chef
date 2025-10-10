@@ -1,0 +1,17 @@
+{% extends 'admin/admin.html.twig' %}
+{% block title %}Recette :
+	{{ recipe.title }}
+{% endblock %}
+
+{% block body %}
+	<div>
+		<h1>{{ recipe.title }}</h1>
+		<p>{{ recipe.content }}</p>
+		<p>Durée :
+			{{ recipe.duration }}
+			minutes</p>
+		<a href="{{ path('admin.recipe.index') }}" class="btn btn-secondary mt-3">Retour à la liste des recettes</a>
+		<a href="{{ path('admin.recipe.edit', {'id': recipe.id}) }}" class="btn btn-primary mt-3 ml-3">Modifier la recette</a>
+		<a href="{{ path('admin.recipe.delete', {'id': recipe.id}) }}" class="btn btn-danger mt-3 ml-3" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette recette ?');">Supprimer la recette</a>
+	</div>
+{% endblock %}

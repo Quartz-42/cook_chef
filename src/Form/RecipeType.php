@@ -16,6 +16,8 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\Image;
 
 class RecipeType extends AbstractType
 {
@@ -25,6 +27,9 @@ class RecipeType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Titre de la recette',
                 'empty_data' => '',
+            ])
+            ->add('thumbnailFile', FileType::class, [
+             
             ])
             ->add('slug', TextType::class, [
                 'required' => false,
