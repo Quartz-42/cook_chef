@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\Sequentially;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Form\Event\PreSubmitEvent;
-use Symfony\Component\Form\Extension\Core\Type\TextAreaType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class RecipeType extends AbstractType
 {
@@ -36,7 +36,7 @@ class RecipeType extends AbstractType
                     new Regex(['pattern' => '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'message' => 'Le slug doit être en minuscules, sans espaces et peut contenir des tirets.'])
                 ]),
             ])
-            ->add('content', TextAreaType::class, [
+            ->add('content', TextareaType::class, [
                 'label' => 'Etapes',
                 'empty_data' => '',
             ])
