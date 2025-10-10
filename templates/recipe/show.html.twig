@@ -8,6 +8,10 @@
 	<div>
 		<h1>{{ recipe.title }}</h1>
 		<p>{{ recipe.content }}</p>
+		<p>Durée :
+			{{ recipe.duration }}
+			minutes</p>
 		<a href="{{ path('recipe.index') }}" class="btn btn-secondary mt-3">Retour à la liste des recettes</a>
+		<a href="{{ path('recipe.edit', {'id': recipe.id}) }}" class="btn btn-primary mt-3 ml-3">Modifier la recette</a>
 	</div>
 {% endblock %}
