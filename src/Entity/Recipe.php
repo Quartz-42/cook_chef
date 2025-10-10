@@ -5,8 +5,13 @@ namespace App\Entity;
 use App\Repository\RecipeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Validator\BanWord;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
+#[UniqueEntity(fields: ['slug'], message: 'Ce slug est déjà utilisé par une autre recette, merci de le modifier.')]
+#[UniqueEntity(fields: ['title'], message: 'Une autre recette possède déjà ce titre, merci de le modifier.')]
 class Recipe
 {
     #[ORM\Id]
@@ -15,13 +20,17 @@ class Recipe
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 5, max: 255, groups: ['Extra'])]
+    #[BanWord( groups: ['Extra']),]
+    private string $title = '';
 
     #[ORM\Column(length: 255)]
-    private ?string $slug = null;
+    private string $slug = '';
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $content = null;
+    #[Assert\NotBlank]
+    private string $content = '';
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -30,6 +39,8 @@ class Recipe
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive(message: 'La durée doit être un nombre positif.')]
+    #[Assert\LessThan(value: 1440, message: 'La durée doit être inférieure à 1440 minutes (24 heures).')]
     private ?int $duration = null;
 
     public function getId(): ?int
