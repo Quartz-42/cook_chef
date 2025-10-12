@@ -7,8 +7,10 @@ use App\Repository\RecipeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/recettes', name: 'recipe.')]
+#[IsGranted('ROLE_USER')]
 final class RecipeController extends AbstractController
 {
     #[Route('/', name: 'index')]
