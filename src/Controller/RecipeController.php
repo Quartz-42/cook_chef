@@ -8,15 +8,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\HttpFoundation\Request;
 
 #[Route('/recettes', name: 'recipe.')]
 #[IsGranted('ROLE_USER')]
 final class RecipeController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(RecipeRepository $recipeRepository): Response
+    public function index(RecipeRepository $recipeRepository, Request $request): Response
     {
-        $recipes = $recipeRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $recipes = $recipeRepository->paginateRecipes($page, 1);
         $totalDuration = $recipeRepository->findTotalDuration();
 
         return $this->render('recipe/index.html.twig', [

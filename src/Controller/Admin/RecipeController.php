@@ -16,9 +16,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 final class RecipeController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(RecipeRepository $recipeRepository): Response
+    public function index(RecipeRepository $recipeRepository, Request $request): Response
     {
-        $recipes = $recipeRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $recipes = $recipeRepository->paginateRecipes($page, 10);
         $totalDuration = $recipeRepository->findTotalDuration();
 
         return $this->render('admin/recipe/index.html.twig', [
