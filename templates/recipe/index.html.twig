@@ -8,7 +8,6 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>{{ knp_pagination_sortable( recipes, 'ID', 'r.id') }}</th>
 					<th>{{ knp_pagination_sortable( recipes, 'Titre', 'r.title') }}</th>
 					<th>{{ knp_pagination_sortable( recipes, 'Description', 'r.content') }}</th>
 					<th>{{ knp_pagination_sortable( recipes, 'Durée', 'r.duration') }}</th>
@@ -17,7 +16,6 @@
 			<tbody>
 				{% for recipe in recipes %}
 					<tr>
-						<td>{{ recipe.id }}</td>
 						<td>
 							<a href="{{ path('recipe.show', {'slug': recipe.slug, 'id': recipe.id}) }}">
 								{{ recipe.title }}</a>

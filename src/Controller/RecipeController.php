@@ -18,7 +18,8 @@ final class RecipeController extends AbstractController
     public function index(RecipeRepository $recipeRepository, Request $request): Response
     {
         $page = $request->query->getInt('page', 1);
-        $recipes = $recipeRepository->paginateRecipes($page, 1);
+        $maxResults = 1;
+        $recipes = $recipeRepository->paginateRecipes($page, $maxResults);
         $totalDuration = $recipeRepository->findTotalDuration();
 
         return $this->render('recipe/index.html.twig', [
