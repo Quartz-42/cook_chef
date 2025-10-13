@@ -33,6 +33,20 @@
 							<a class="nav-link {{app.current_route starts with 'admin.' ? 'active' : ''}}" href="{{path('admin.recipe.index')}}">Admin</a>
 						</li>
 					</ul>
+					<ul class="navbar-nav ms-auto">
+						{% if app.user %}
+							<li class="nav-item">
+								<a class="nav-link" href="{{path('app_logout')}}">Déconnexion</a>
+							</li>
+						{% else %}
+							<li class="nav-item">
+								<a class="nav-link {{app.current_route == 'app_register' ? 'active' : ''}}" href="{{path('app_register')}}">Inscription</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link {{app.current_route == 'app_login' ? 'active' : ''}}" href="{{path('app_login')}}">Connexion</a>
+							</li>
+						{% endif %}
+					</ul>
 				</div>
 			</div>
 		</nav>
