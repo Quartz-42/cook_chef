@@ -25,10 +25,17 @@ class RecipeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
-    
-    public function paginateRecipes(int $page, int $limit) : PaginationInterface {
+
+    public function paginateRecipes(int $page, int $limit, ?int $userId) : PaginationInterface {
+        $queryBuilder = $this->createQueryBuilder('r');
+
+        if ($userId !== null) {
+            $queryBuilder->andWhere('r.author = :userId')
+                ->setParameter('userId', $userId);
+        }
+
         return $this->paginator->paginate(
-            $this->createQueryBuilder('r'),
+            $queryBuilder,
             $page,
             $limit,
             [

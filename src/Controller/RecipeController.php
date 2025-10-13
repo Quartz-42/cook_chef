@@ -9,17 +9,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\SecurityBundle\Security;
+use App\Security\Voter\RecipeVoter;
 
 #[Route('/recettes', name: 'recipe.')]
 #[IsGranted('ROLE_USER')]
 final class RecipeController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(RecipeRepository $recipeRepository, Request $request): Response
+    public function index(RecipeRepository $recipeRepository, Request $request, Security $security): Response
     {
         $page = $request->query->getInt('page', 1);
+        /**
+         * @var \App\Entity\User $user
+         */
+        $user = $security->getUser();
+        $canListAll = $security->isGranted(RecipeVoter::LIST_ALL);
         $maxResults = 1;
-        $recipes = $recipeRepository->paginateRecipes($page, $maxResults);
+        $recipes = $recipeRepository->paginateRecipes($page, $maxResults, $canListAll ? null : $user->getId());
         $totalDuration = $recipeRepository->findTotalDuration();
 
         return $this->render('recipe/index.html.twig', [

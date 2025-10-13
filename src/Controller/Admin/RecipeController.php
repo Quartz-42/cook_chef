@@ -11,17 +11,28 @@ use App\Entity\Recipe;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\SecurityBundle\Security;
+use App\Security\Voter\RecipeVoter;
+
 
 #[Route('/admin/recettes', name: 'admin.recipe.')]
+// #[IsGranted('ROLE_ADMIN')]
 final class RecipeController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(RecipeRepository $recipeRepository, Request $request): Response
+    #[IsGranted(RecipeVoter::LIST)]
+    public function index(RecipeRepository $recipeRepository, Request $request, Security $security): Response
     {
         $page = $request->query->getInt('page', 1);
-        $recipes = $recipeRepository->paginateRecipes($page, 10);
+           /**
+            * @var \App\Entity\User $user
+            */
+        $user = $security->getUser();
+        $canListAll = $security->isGranted(RecipeVoter::LIST_ALL);
+        $maxResults = 1;
+        $recipes = $recipeRepository->paginateRecipes($page, $maxResults, $canListAll ? null : $user->getId());
         $totalDuration = $recipeRepository->findTotalDuration();
-
         return $this->render('admin/recipe/index.html.twig', [
             'recipes' => $recipes,
             'totalDuration' => $totalDuration,
@@ -37,6 +48,7 @@ final class RecipeController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    #[IsGranted(RecipeVoter::EDIT, subject: 'recipe')]
     public function edit(Recipe $recipe, Request $request, EntityManagerInterface $em): Response
     {
        $form = $this->createForm(RecipeType::class, $recipe);
@@ -66,6 +78,7 @@ final class RecipeController extends AbstractController
     }
 
     #[Route('/create', name: 'create')]
+    #[IsGranted(RecipeVoter::CREATE)]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $recipe = new Recipe();
