@@ -39,7 +39,8 @@ class RecipeType extends AbstractType
                 ]),
             ])
             ->add('thumbnailFile', FileType::class, [
-                         ])
+                'required' => false,
+            ])
             ->add('content', TextareaType::class, [
                 'label' => 'Etapes',
                 'empty_data' => '',
@@ -56,9 +57,7 @@ class RecipeType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'attr' => [
-                    'data-controller' => 'form-collection',
-                    'data-form-collection-add-label-value' => 'Ajouter un ingrédient',
-                    'data-form-collection-delete-label-value' => 'Supprimer cet ingrédient',
+                    'data-controller' => 'form-collection'
                 ],
              ])
             ->add("save", SubmitType::class, [
