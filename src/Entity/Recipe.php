@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Validator\BanWord;
 use Symfony\Component\HttpFoundation\File\File;
+use Gedmo\Mapping\Annotation\Translatable;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[UniqueEntity(fields: ['slug'], message: 'Ce slug est déjà utilisé par une autre recette, merci de le modifier.')]
@@ -25,8 +26,9 @@ class Recipe
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 5, max: 255, groups: ['Extra'])]
-    #[BanWord( groups: ['Extra']),]
-    private string $title = '';
+    #[BanWord( groups: ['Extra'])]
+    #[Translatable]
+    private ?string $title = '';
 
     #[ORM\Column(length: 255)]
     private string $slug = '';
@@ -73,7 +75,7 @@ class Recipe
 
     public function getTitle(): ?string
     {
-        return $this->title;
+        return $this->title ?? '';
     }
 
     public function setTitle(string $title): static

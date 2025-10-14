@@ -18,7 +18,6 @@
 		<nav class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="{{path('home')}}">Cook Chef</a>
-				<div class="collapse navbar-collapse">
 					<ul class="navbar-nav">
 						<li class="nav-item">
 							<a class="nav-link {{app.current_route == 'home' ? 'active' : ''}}" href="{{path('home')}}">Accueil</a>
@@ -47,7 +46,6 @@
 							</li>
 						{% endif %}
 					</ul>
-				</div>
 			</div>
 		</nav>
 		<div class="container my-4">

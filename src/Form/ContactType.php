@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use App\DTO\ContactDTO;
+use function Symfony\Component\Translation\t;
 
 class ContactType extends AbstractType
 {
@@ -17,19 +18,19 @@ class ContactType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Votre nom',
+                'label' => t('contactForm.name'),
                 'empty_data' => '',
             ])
             ->add('mail', EmailType::class, [
-                'label' => 'Votre email',
+                'label' => t('contactForm.mail'),
                 'empty_data' => '',
             ])
             ->add('message', TextareaType::class, [
-                'label' => 'Votre message',
+                'label' => t('contactForm.message'),
                 'empty_data' => '',
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Envoyer'
+                'label' => t('contactForm.submit')
             ])
         ;
     }

@@ -2,9 +2,13 @@
 
 {% block body %}
 	{# {{ ux_icon('bi:chat', {style: 'height: 4em;'}) }}
-				{{ ux_icon('lucide:circle-check', {style: 'height: 4em;'}) }} #}
-	<div class="p-5 mx-auto" style="font-size: 2em;">
-		{% set strings = [
+							{{ ux_icon('lucide:circle-check', {style: 'height: 4em;'}) }} #}
+	{# <p> {% trans %}Hello{% endtrans %}</p> #}
+		<p>
+	{{ 'home_recipe_count' | trans({count: recipeNumber}) }}
+	</p>
+
+		<div class="p-5 mx-auto" style="font-size: 2em;"> {% set strings = [
             'I ❤️ Symfony UX!',
             'Symfony UX Typed loves to type',
             'Symfony UX Typed and backspace',
