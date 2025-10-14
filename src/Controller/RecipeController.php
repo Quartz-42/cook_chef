@@ -25,7 +25,7 @@ final class RecipeController extends AbstractController
          */
         $user = $security->getUser();
         $canListAll = $security->isGranted(RecipeVoter::LIST_ALL);
-        $maxResults = 1;
+        $maxResults = 5;
         $recipes = $recipeRepository->paginateRecipes($page, $maxResults, $canListAll ? null : $user->getId());
         $totalDuration = $recipeRepository->findTotalDuration();
 

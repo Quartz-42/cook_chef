@@ -17,6 +17,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class RecipeType extends AbstractType
 {
@@ -26,9 +27,6 @@ class RecipeType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Titre de la recette',
                 'empty_data' => '',
-            ])
-            ->add('thumbnailFile', FileType::class, [
-             
             ])
             ->add('slug', TextType::class, [
                 'required' => false,
@@ -40,6 +38,8 @@ class RecipeType extends AbstractType
                     new Regex(['pattern' => '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'message' => 'Le slug doit être en minuscules, sans espaces et peut contenir des tirets.'])
                 ]),
             ])
+            ->add('thumbnailFile', FileType::class, [
+                         ])
             ->add('content', TextareaType::class, [
                 'label' => 'Etapes',
                 'empty_data' => '',
@@ -47,6 +47,20 @@ class RecipeType extends AbstractType
             ->add('duration', NumberType::class, [
                 'label' => 'Durée'
             ])
+            ->add('quantities', CollectionType::class, [
+                'entry_type' => QuantityType::class,
+                'by_reference' => false,
+                'entry_options' => [
+                    'label' => false,
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'attr' => [
+                    'data-controller' => 'form-collection',
+                    'data-form-collection-add-label-value' => 'Ajouter un ingrédient',
+                    'data-form-collection-delete-label-value' => 'Supprimer cet ingrédient',
+                ],
+             ])
             ->add("save", SubmitType::class, [
                 'label' => 'Enregistrer'
             ])
