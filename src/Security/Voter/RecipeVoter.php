@@ -47,8 +47,10 @@ final class RecipeVoter extends Voter
                     }
         
                 case self::EDIT:
+                    if($subject) {
                     return $subject->getAuthor()->getId() === $user->getId();
                     break;
+                    }
             }
 
             return false;
