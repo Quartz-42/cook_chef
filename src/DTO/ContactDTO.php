@@ -1,6 +1,7 @@
 <?php
 
 namespace App\DTO;
+
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ContactDTO
@@ -14,7 +15,7 @@ class ContactDTO
     private string $mail;
 
     #[Assert\NotBlank]
-    #[Assert\Length(min: 10,max: 1000)]
+    #[Assert\Length(min: 10, max: 1000)]
     private string $message;
 
     public function getName(): string
@@ -25,6 +26,7 @@ class ContactDTO
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -36,6 +38,7 @@ class ContactDTO
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
+
         return $this;
     }
 
@@ -47,6 +50,7 @@ class ContactDTO
     public function setMessage(string $message): self
     {
         $this->message = $message;
+
         return $this;
     }
 }

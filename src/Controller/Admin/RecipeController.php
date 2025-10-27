@@ -2,19 +2,18 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Recipe;
+use App\Form\RecipeType;
+use App\Repository\RecipeRepository;
+use App\Security\Voter\RecipeVoter;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Repository\RecipeRepository;
-use App\Form\RecipeType;
-use App\Entity\Recipe;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Bundle\SecurityBundle\Security;
-use App\Security\Voter\RecipeVoter;
-
 
 #[Route('/admin/recettes', name: 'admin.recipe.')]
 // #[IsGranted('ROLE_ADMIN')]
@@ -25,14 +24,15 @@ final class RecipeController extends AbstractController
     public function index(RecipeRepository $recipeRepository, Request $request, Security $security): Response
     {
         $page = $request->query->getInt('page', 1);
-           /**
-            * @var \App\Entity\User $user
-            */
+        /**
+         * @var \App\Entity\User $user
+         */
         $user = $security->getUser();
         $canListAll = $security->isGranted(RecipeVoter::LIST_ALL);
         $maxResults = 5;
         $recipes = $recipeRepository->paginateRecipes($page, $maxResults, $canListAll ? null : $user->getId());
         $totalDuration = $recipeRepository->findTotalDuration();
+
         return $this->render('admin/recipe/index.html.twig', [
             'recipes' => $recipes,
             'totalDuration' => $totalDuration,
@@ -51,32 +51,31 @@ final class RecipeController extends AbstractController
     #[IsGranted(RecipeVoter::EDIT, subject: 'recipe')]
     public function edit(Recipe $recipe, Request $request, EntityManagerInterface $em): Response
     {
-       $form = $this->createForm(RecipeType::class, $recipe);
+        $form = $this->createForm(RecipeType::class, $recipe);
 
-       $form->handleRequest($request);
+        $form->handleRequest($request);
 
-       if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            /* @var UploadedFile $thumbnailFile */
+            if ($form->get('thumbnailFile')->getData()) {
+                $thumbnailFile = $form->get('thumbnailFile')->getData();
+                $fileName = $recipe->getId().'.'.$thumbnailFile->getClientOriginalExtension();
+                $thumbnailFile->move($this->getParameter('kernel.project_dir').'/public/upload/recettes/images', $fileName);
+                $recipe->setThumbnail($fileName);
+            }
 
-           /** @var UploadedFile $thumbnailFile */
-           if ($form->get('thumbnailFile')->getData()) {
-           $thumbnailFile = $form->get('thumbnailFile')->getData();
-           $fileName = $recipe->getId() . '.' . $thumbnailFile->getClientOriginalExtension();
-           $thumbnailFile->move($this->getParameter('kernel.project_dir').'/public/upload/recettes/images', $fileName);
-           $recipe->setThumbnail($fileName);
-           }
-           
-           $em->flush();
+            $em->flush();
 
-           $this->addFlash('success', 'Recette modifiée avec succès');
+            $this->addFlash('success', 'Recette modifiée avec succès');
 
-           return $this->redirectToRoute('admin.recipe.show', [
-               'id' => $recipe->getId()
-           ]);
+            return $this->redirectToRoute('admin.recipe.show', [
+                'id' => $recipe->getId(),
+            ]);
         }
 
         return $this->render('admin/recipe/edit.html.twig', [
             'recipe' => $recipe,
-            'form' => $form
+            'form' => $form,
         ]);
     }
 
@@ -110,6 +109,7 @@ final class RecipeController extends AbstractController
         $em->flush();
 
         $this->addFlash('success', 'Recette supprimée avec succès');
+
         return $this->redirectToRoute('admin.recipe.index');
     }
 }

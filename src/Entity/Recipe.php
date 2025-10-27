@@ -3,15 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
+use App\Validator\BanWord;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Validator\BanWord;
-use Symfony\Component\HttpFoundation\File\File;
 use Gedmo\Mapping\Annotation\Translatable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[UniqueEntity(fields: ['slug'], message: 'Ce slug est déjà utilisé par une autre recette, merci de le modifier.')]
@@ -26,7 +26,7 @@ class Recipe
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 5, max: 255, groups: ['Extra'])]
-    #[BanWord( groups: ['Extra'])]
+    #[BanWord(groups: ['Extra'])]
     #[Translatable]
     private ?string $title = '';
 
@@ -59,7 +59,7 @@ class Recipe
     /**
      * @var Collection<int, Quantity>
      */
-    #[ORM\OneToMany(targetEntity: Quantity::class, mappedBy: 'recipe', orphanRemoval: true ,cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Quantity::class, mappedBy: 'recipe', orphanRemoval: true, cascade: ['persist'])]
     #[Assert\Valid]
     private Collection $quantities;
 

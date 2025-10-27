@@ -15,7 +15,7 @@ final class BanWordValidator extends ConstraintValidator
             return;
         }
 
-        $value=strtolower($value);
+        $value = strtolower($value);
 
         foreach ($constraint->banWords as $banWord) {
             if (str_contains($value, $banWord)) {

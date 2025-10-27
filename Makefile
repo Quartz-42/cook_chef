@@ -1,10 +1,14 @@
+#Hack pour les chemins windows
+SHELL := powershell.exe
+.SHELLFLAGS := -NoProfile -Command
+
 .PHONY: php-stan
 php-stan: 
-	vendor/bin/phpstan analyse src templates
+	vendor/bin/phpstan analyse src templates --memory-limit=512M
 
 .PHONY: php-cs
 php-cs:
-	php-cs-fixer fix
+	 $$env:PHP_CS_FIXER_IGNORE_ENV="1"; ./vendor/bin/php-cs-fixer fix src
  
 .PHONY : tailwind-build
 tailwind-build:

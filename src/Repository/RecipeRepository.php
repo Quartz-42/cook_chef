@@ -5,8 +5,8 @@ namespace App\Repository;
 use App\Entity\Recipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Knp\Component\Pager\PaginatorInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Recipe>
@@ -26,10 +26,11 @@ class RecipeRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    public function paginateRecipes(int $page, int $limit, ?int $userId) : PaginationInterface {
+    public function paginateRecipes(int $page, int $limit, ?int $userId): PaginationInterface
+    {
         $queryBuilder = $this->createQueryBuilder('r');
 
-        if ($userId !== null) {
+        if (null !== $userId) {
             $queryBuilder->andWhere('r.author = :userId')
                 ->setParameter('userId', $userId);
         }

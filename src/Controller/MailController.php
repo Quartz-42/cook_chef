@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use App\DTO\ContactDTO;
 use App\Form\ContactType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-use App\DTO\ContactDTO;
+use Symfony\Component\Routing\Attribute\Route;
 
 final class MailController extends AbstractController
 {
@@ -22,20 +22,20 @@ final class MailController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contactData = $form->getData();
-                 $message = (new Email())
+            $message = (new Email())
                 ->from($contactData->getMail())
                 ->to('recipient@example.com')
-                ->subject('Nouveau message de contact de la part de ' . $contactData->getName())
+                ->subject('Nouveau message de contact de la part de '.$contactData->getName())
                 ->text($contactData->getMessage());
 
-                try {
-                    $mailer->send($message);
-                    $this->addFlash('success', 'Votre message a été envoyé avec succès !');
-                } catch (\Exception $e) {
-                    $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer plus tard.');
-                    return $this->redirectToRoute('contact');
-                }
-                
+            try {
+                $mailer->send($message);
+                $this->addFlash('success', 'Votre message a été envoyé avec succès !');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer plus tard.');
+
+                return $this->redirectToRoute('contact');
+            }
 
             return $this->redirectToRoute('contact');
         }

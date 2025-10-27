@@ -4,13 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Recipe;
 use App\Repository\RecipeRepository;
+use App\Security\Voter\RecipeVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\SecurityBundle\Security;
-use App\Security\Voter\RecipeVoter;
 
 #[Route('/recettes', name: 'recipe.')]
 #[IsGranted('ROLE_USER')]
@@ -41,7 +41,7 @@ final class RecipeController extends AbstractController
         if ($recipe->getSlug() !== $slug) {
             return $this->redirectToRoute('recipe.show', [
                 'slug' => $recipe->getSlug(),
-                'id' => $recipe->getId()
+                'id' => $recipe->getId(),
             ], 301);
         }
 
