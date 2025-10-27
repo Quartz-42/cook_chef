@@ -31,63 +31,95 @@ class RegistrationFormType extends AbstractType
 
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'Email'
+                'label' => 'Email',
             ])
 
-            ->add('plainPassword', PasswordType::class, [
-                    'label' => 'Password',
-                    // instead of being set onto the object directly,
-                    // this is read and encoded in the controller
+            ->addDependent('plainPassword', ['email'], function (DependentField $field, $email) {
+            if (!$email) {
+                return;
+            }
+
+            // Validation de l'email
+            $violations = $this->validator->validate($email, [
+                new NotBlank(['message' => 'Please enter an email']),
+                new Email(['message' => 'The email "{{ value }}" is not a valid email.']),
+            ]);
+            
+            // Si erreurs de validation, ne pas afficher le champ suivant
+            if (count($violations) > 0) {
+                return;
+            }
+
+            // Ajouter le champ password si l'email est valide
+            $field->add(PasswordType::class, [
+                //attribut magique pour pas que le champ password soit a blank apres un submit
+                'always_empty' => false,
+                'label' => 'Password',
+                'mapped' => false,
+                'toggle' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'max' => 4096,
+                    ]),
+                ],
+            ]);
+        })
+
+            ->addDependent('agreeTerms', ['plainPassword'], function (DependentField $field, $plainPassword) {
+                if (!$plainPassword) {
+                    return;
+                }
+
+                // Validation du mot de passe
+                $violations = $this->validator->validate($plainPassword, [
+                    new NotBlank(['message' => 'Please enter a password']),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'max' => 4096,
+                    ]),
+                ]);
+                
+                // Si erreurs de validation, ne pas afficher le champ suivant
+                if (count($violations) > 0) {
+                    return;
+                }
+
+                // Ajouter la checkbox si le password est valide
+                $field->add(CheckboxType::class, [
                     'mapped' => false,
-                    // 'attr' => ['autocomplete' => 'new-password'],
-                    'toggle' => true,
-                     //on laisse la contrainte ici car on gere pas le password de l'entité User mais
-                    //un autre champ non mappé qu'on transforme apres.....
                     'constraints' => [
-                        new NotBlank([
-                            'message' => 'Please enter a password',
-                        ]),
-                        new Length([
-                            'min' => 6,
-                            'minMessage' => 'Your password should be at least {{ limit }} characters',
-                            // max length allowed by Symfony for security reasons
-                            'max' => 4096,
+                        new IsTrue([
+                            'message' => 'You should agree to our terms.',
                         ]),
                     ],
-                ])
-
-                // ->add('agreeTerms', CheckboxType::class, [
-                //     'mapped' => false,
-                //     'constraints' => [
-                //         new IsTrue([
-                //             'message' => 'You should agree to our terms.',
-                //         ]),
-                //     ],
-                // ])
-
-                ->add('submit', SubmitType::class, [
-                    'label' => 'Register',
-                    'attr' => ['class' => 'btn btn-primary'],
                 ]);
+            })
 
-                // ->addDependent('submit', ['agreeTerms'], function (DependentField $field, $agreeTerms) {
-                // if (!$agreeTerms) {
-                //     return;
-                // }
+             ->addDependent('submit', ['agreeTerms'], function (DependentField $field, $agreeTerms) {
+                if (!$agreeTerms) {
+                    return;
+                }
 
-                // // Validation que les termes sont acceptés (checkbox cochée)
-                // $violations = $this->validator->validate($agreeTerms, [
-                //     new IsTrue(['message' => 'You should agree to our terms.']),
-                // ]);
-                // if (count($violations) > 0) {
-                //     return;
-                // }
+                // Validation que les termes sont acceptés (checkbox cochée)
+                $violations = $this->validator->validate($agreeTerms, [
+                    new IsTrue(['message' => 'You should agree to our terms.']),
+                ]);
+                
+                // Si erreurs de validation, ne pas afficher le bouton
+                if (count($violations) > 0) {
+                    return;
+                }
 
-                // $field->add(SubmitType::class, [
-                //     'label' => 'Register',
-                //     'attr' => ['class' => 'btn btn-primary'],
-                // ]);
-            // });
+                $field->add(SubmitType::class, [
+                      'attr' => ['class' => 'btn btn-primary'],
+                ]);
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

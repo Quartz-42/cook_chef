@@ -10,5 +10,10 @@
 
 	<h1>Register</h1>
 
-	<twig:RegistrationForm :form="form" :initialformdata="user"/>
+	{# au choix 2 synatxes pour appeler un component twig #}
+	{{ component('RegistrationForm', 
+	{ initialformdata: user }
+	)}}
+
+	{# <twig:RegistrationForm :form="form" :initialformdata="user"/> #}
 {% endblock %}

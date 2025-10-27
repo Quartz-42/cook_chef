@@ -3,9 +3,15 @@
 
 	{{ form_start(form) }}
 	{{ form_row(form.email) }}
-	{{ form_row(form.plainPassword) }}
-	{# {{ form_row(form.agreeTerms) }} #}
-	{{ form_row(form.submit) }}
+	{% if form.plainPassword is defined %}
+		{{ form_row(form.plainPassword) }}
+	{% endif %}
+	{% if form.agreeTerms is defined %}
+		{{ form_row(form.agreeTerms) }}
+	{% endif %}
+	{% if form.submit is defined %}
+		{{ form_row(form.submit) }}
+	{% endif %}
 
 	{{ form_end(form) }}
 </div>
