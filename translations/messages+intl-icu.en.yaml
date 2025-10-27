@@ -3,5 +3,5 @@ contactForm.mail: Mail
 contactForm.message: Message
 contactForm.submit: Send
 Hello: Hello
-home_recipe_count: "{count, plural, =0 {No recipe} one {# recipe} other {# recipes}}"
-Contactez-nous: Contact us
+home_recipe_count: '{count, plural, =0 {No recipe} one {# recipe} other {# recipes}}'
+Contactez-nous: 'Contact us'

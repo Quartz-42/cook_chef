@@ -1,0 +1,5 @@
+'%count% year|%count% years': '%count% anno|%count% anni'
+'%count% month|%count% months': '%count% mese|%count% mesi'
+'%count% day|%count% days': '%count% giorno|%count% giorni'
+'%count% hour|%count% hours': '%count% ora|%count% ore'
+'%count% minute|%count% minutes': '%count% minuto|%count% minuti'

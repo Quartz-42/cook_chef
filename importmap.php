@@ -38,4 +38,7 @@ return [
     'typed.js' => [
         'version' => '2.1.0',
     ],
+    '@symfony/ux-live-component' => [
+        'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
+    ],
 ];

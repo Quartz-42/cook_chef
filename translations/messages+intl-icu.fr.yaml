@@ -2,6 +2,6 @@ Hello: Hello
 contactForm.name: Nom
 contactForm.mail: Email
 contactForm.message: Message
-contactForm.submit: Envoyer le message
-home_recipe_count: "{count, plural, =0 {Aucune recette} one {# recette} other {# recettes}}"
+contactForm.submit: 'Envoyer le message'
+home_recipe_count: '{count, plural, =0 {Aucune recette} one {# recette} other {# recettes}}'
 Contactez-nous: Contactez-nous
