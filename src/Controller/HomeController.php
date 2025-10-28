@@ -14,7 +14,7 @@ final class HomeController extends AbstractController
     {
         $recipeNumber = $recipeRepository->count([]);
 
-        return $this->render('magic.html.twig', [
+        return $this->render('home.html.twig', [
             'recipeNumber' => $recipeNumber,
         ]);
     }

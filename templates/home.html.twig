@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	{# {{ ux_icon('bi:chat', {style: 'height: 4em;'}) }}#}
+
+	<h1>
+		{% trans %}Hello -
+		{% endtrans %}
+		{{ 'home_recipe_count' | trans({count: recipeNumber}) }}
+		disponibles actuellement sur le site !
+	</h1>
+
+	<div class="p-5 mx-auto display-6">
+
+		{% set strings = [
+            'J\'❤️ cuisiner !',
+            'Un chef sans recette, c\'est comme...',
+            'Brûler les pâtes, un art !',
+            'Sel ou sucre ? 🤔',
+            'Plat du jour : pâtes au beurre',
+            'Cuisine comme grand-mère... enfin presque',
+            'Cuire ou ne pas cuire...',
+            'Pizza > tout le reste',
+        ] %}
+
+		<span data-controller="typed" data-typed-loop-value="true" data-typed-show-cursor-value="true" data-typed-cursor-char-value="✨" data-typed-strings-value="{{ strings|json_encode|e('html_attr') }}"></span>
+	</div>
+{% endblock %}
