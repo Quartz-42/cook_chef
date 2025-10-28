@@ -2,21 +2,18 @@
 
 Une application web à vocation de DEMO, de gestion de recettes de cuisine développée avec Symfony 7.3 et ses dernières fonctionnalités.
 
-## ✨ Fonctionnalités
-
 ### 🔐 Gestion des utilisateurs
 
--   **Inscription progressive** avec validation en temps réel via LiveComponents
--   **Vérification d'email** automatique après inscription
--   **Authentification sécurisée** avec hashage des mots de passe
--   **Système de rôles** (utilisateur, administrateur)
+-   **Inscription** avec validation en temps réel via LiveComponents (démo technique des composants live components et dependent form fields)
+-   **Vérification d'email** après inscription
+-   **Authentification sécurisée** avec hashage des passwords
+-   **Système de rôles** utilisateur, administrateur
 
 ### 📝 Gestion des recettes
 
--   **CRUD complet** des recettes (création, lecture, mise à jour, suppression)
+-   **CRUD complet** des recettes
 -   **Upload d'images** pour les miniatures de recettes
--   **Gestion des ingrédients et quantités** avec formulaires dynamiques
--   **Slugs automatiques** générés à partir des titres
+-   **Gestion des ingrédients et quantités** avec formulaires dynamiques (CollectionType)
 -   **Validation avancée** avec contraintes personnalisées
 -   **Système de permissions** avec Voters Symfony
 
@@ -28,11 +25,10 @@ Une application web à vocation de DEMO, de gestion de recettes de cuisine déve
 
 ### 📊 Interface utilisateur
 
--   **Design responsive** avec Bootstrap 5.3.8
--   **Pagination intelligente** avec KnpPaginatorBundle
+-   **Design responsive**
+-   **Pagination** avec KnpPaginatorBundle
 -   **Tri et filtres** pour les listes de recettes
 -   **Composants interactifs** avec Symfony UX LiveComponents
--   **Interface d'administration** dédiée
 
 ### 📧 Communication
 
