@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recettes
+{% endblock %}
+
+{% block body %}
+	<div class="m-4 p-4 bg-light rounded-3">
+		<div class="d-flex justify-content-between align-items-center">
+			<h1 class="h4 fw-semibold mb-4 text-dark">Recettes</h1>
+
+			<form method="dialog">
+				<button type="button" class="btn btn-primary btn-sm d-flex align-items-center gap-1">
+					<span>New Voyage</span>
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>
+				</button>
+			</form>
+
+			<div class="modal show" tabindex="-1" style="display: block;">
+				<div class="modal-dialog modal-dialog-centered modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Create new RECETTE</h5>
+							<button type="button" class="btn-close" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<p class="text-muted mb-0">test</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary">Let's Go!</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

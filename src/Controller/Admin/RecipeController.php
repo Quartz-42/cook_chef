@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/recettes', name: 'admin.recipe.')]
-// #[IsGranted('ROLE_ADMIN')]
 final class RecipeController extends AbstractController
 {
     #[Route('/', name: 'index')]
